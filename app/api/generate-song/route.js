@@ -145,7 +145,7 @@ export async function POST(req) {
                 const fileUrl = `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/songs/${fileName}`;
                 console.log(`File uploaded successfully to S3: ${fileUrl}`);
                 const randomImageNumber = getRandomNumber();
-                const imagePath = `/assets/song-images/${randomImageNumber}.png`
+                const imagePath = `/assets/song-images/${randomImageNumber}.jpg`
 
                 const songInDb = await prisma.song.create({
                     data : {

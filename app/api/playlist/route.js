@@ -17,7 +17,7 @@ export async function POST(req){
         const {name,description} = await req.json();
 
         const randomImageNumber = getRandomNumber();
-        const image = `/assets/song-images/${randomImageNumber}.png`
+        const image = `/assets/song-images/${randomImageNumber}.jpg`
 
         const playlist = await prisma.playlist.create({
             data : {

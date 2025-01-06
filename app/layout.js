@@ -18,9 +18,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${orbitron.className} antialiased`}
       >
-        <ClerkProvider>
-          {children}
-        </ClerkProvider>
+        
+          <ClerkProvider>
+            {children}
+          </ClerkProvider>
+        
       </body>
     </html>
   );

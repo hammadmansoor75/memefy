@@ -14,9 +14,14 @@ import { SlPlaylist } from "react-icons/sl";
 import Image from 'next/image';
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
+import { useAuth } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 
 const PlaylistSubPage = () => {
+
+    const {userId, isLoaded} = useAuth();
+    const router = useRouter();
 
     const [songs,setSongs] = useState([]);
     const [playlist, setPlaylist] = useState([]);
@@ -24,6 +29,11 @@ const PlaylistSubPage = () => {
 
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
+
+
+    if(!isLoaded || !userId){
+      router.push('/sign-in')
+    }
 
 
     const getPlaylist = async (id) => {
@@ -34,6 +44,9 @@ const PlaylistSubPage = () => {
 
             if(response.status === 200){
                 setSongs(response.data.songs);
+                if(response.data.songs.length > 0){
+                  setSelectedSong(response.data.songs[0])
+                }
                 setPlaylist(response.data.playlist)
             }
         } catch (error) {
@@ -130,6 +143,8 @@ const PlaylistSubPage = () => {
         setSelectedSong(songs[index]);
     };
 
+    
+
   return (
     <main className='p-10 w-full' >
         <div className='mt-10 container relative mx-auto w-full' >
@@ -164,14 +179,14 @@ const PlaylistSubPage = () => {
                           <div>
                             <h1 className='text-white font-semibold text-sm' >{song.title}</h1>
                             <p className='text-white font-extralight text-xs' >
-                              {song.tags[0]} , {song.tags[1]} , {song.tags[2]}
+                              {song.tags}
                             </p>
                           </div>
                         </div>
                         <div className='flex items-center justify-center gap-2 md:gap-4' >
-                              <div className='text-yellow' onClick={handleDelete} >{song.id === selectedSong?.id ? deleteLoading ? <ClipLoader color='white' /> : <MdDelete size={15} /> : <MdDelete size={15} />}</div>
-                              <div className='text-yellow' onClick={downloadFileDirectly}  ><IoMdDownload size={15} /></div>
-                              <div className='text-yellow' onClick={handleShare} ><FaShareAltSquare size={15} /></div>
+                              <div className='text-yellow relative group' onClick={handleDelete} >{song.id === selectedSong?.id ? deleteLoading ? <ClipLoader color='white' /> : <><MdDelete size={17} /><span className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-yellow text-black text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Remove</span></> : <><MdDelete size={17} /><span className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-yellow text-black text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Remove</span></>}</div>
+                              <div className='text-yellow relative group' onClick={downloadFileDirectly}  ><IoMdDownload size={17} /><span className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-yellow text-black text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Download</span></div>
+                              <div className='text-yellow relative group' onClick={handleShare} ><FaShareAltSquare size={17} /><span className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-yellow text-black text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Share</span></div>
                               
                         </div>
                       </div>
@@ -183,8 +198,8 @@ const PlaylistSubPage = () => {
                   {selectedSong ? <div className='flex flex-col items-center justify-center gap-5' >
                     <Image src={selectedSong.songImage || "/assets/song-img-2.svg"} alt='song-image' height={200} width={200} className='rounded-lg' />
                     <h1 className='text-white font-semibold text-2xl text-center' >{selectedSong.title}</h1>
-                    <p className='text-white font-extralight text-sm' >{selectedSong.tags[0]} , {selectedSong.tags[1]} , {selectedSong.tags[2]} </p>
-                    <p className='text-white font-extralight text-sm' >{selectedSong.lyrics}</p>
+                    <p className='text-white font-extralight text-sm text-opacity-65' >{selectedSong.tags} </p>
+                    <p className='text-white font-extralight text-sm whitespace-pre-wrap text-center text-opacity-65' >{selectedSong.lyrics}</p>
                   </div> : <div className='' >
                     <p className='text-white text-xl font-medium text-center' >Select a song to see content!</p>
                   </div>}
@@ -193,12 +208,12 @@ const PlaylistSubPage = () => {
             </div>
 
             {selectedSong && (
-        <div className='absolute border border-white bottom-[-300px] md:bottom-[-130px] right-0 w-full bg-white bg-opacity-10 px-2 rounded-lg' >
+        <div className='sticky mt-5 border border-white bottom-[-300px] md:bottom-[-130px] right-0 w-full bg-white bg-opacity-10 pl-2 rounded-lg' >
           <div className='flex flex-col md:flex-row items-center justify-start gap-5' >
             <Image src={selectedSong.songImage || '/assets/song-img-1.svg'} alt='song-img' height={50} width={50} className='rounded-md' />
             <div>
               <h1 className='text-white text-sm font-semibold' >{selectedSong.title}</h1>
-              <p className='text-white text-xs font-extralight' >{selectedSong.tags[0]} , {selectedSong.tags[0]}, {selectedSong.tags[0]}</p>
+              <p className='text-white text-xs font-extralight' >{selectedSong.tags}</p>
             </div>
             <AudioPlayer
             className='w-full p-4 shadow-lg bg-inherit !important'

@@ -62,10 +62,10 @@ const SideBar = () => {
     const pathname = usePathname();
   return (
     <Sidebar >
-        <SidebarHeader className="px-10 mt-10" >
+        <SidebarHeader className="px-10 mt-7" >
             <div className='flex items-center justify-start gap-2' >
-                <FaCirclePlay />
-                <h1 className='text-white font-semibold' >MEMFY</h1>
+                <FaCirclePlay size={30} />
+                <h1 className='text-white font-semibold text-2xl' >MEMEFY</h1>
             </div>
         </SidebarHeader>
         <SidebarContent className="p-5" >

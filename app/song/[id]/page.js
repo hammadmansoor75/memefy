@@ -52,19 +52,19 @@ const SongPage = () => {
                         <Image src={song?.songImage || '/assets/song-img-1.svg'} height={150} width={150} alt='playlist-image' className='rounded-lg' />
                         <div>
                             <h1 className='text-white text-2xl font-medium' >{song?.title}</h1>
-                            <p className='mt-2 text-white text-lg' >{song?.tags[0]}, {song?.tags[1]}, {song?.tags[2]}</p>
+                            <p className='mt-2 text-white text-lg' >{song?.tags}</p>
                         </div>
                     </div>
                 </div>
 
-                <p className='text-center text-white text-md mt-5' >{song?.lyrics}</p>
+                <p className='text-center text-white text-md mt-5 whitespace-pre-wrap' >{song?.lyrics}</p>
 
-                <div className='mt-10 border border-white bottom-[-300px] md:bottom-[-130px] right-0 w-full bg-white bg-opacity-10 px-2 rounded-lg' >
+                <div className='mt-10 border border-white bottom-[-300px] md:bottom-[-130px] right-0 w-full bg-white bg-opacity-10 pl-2 rounded-lg' >
                     <div className='flex flex-col md:flex-row items-center justify-start gap-5' >
                         <Image src={song?.songImage || '/assets/song-img-1.svg'} alt='song-img' height={50} width={50} className='rounded-md' />
                         <div>
                             <h1 className='text-white text-sm font-semibold' >{song?.title}</h1>
-                            <p className='text-white text-xs font-extralight' >{song?.tags[0]} , {song?.tags[0]}, {song?.tags[0]}</p>
+                            <p className='text-white text-xs font-extralight' >{song?.tags}</p>
                         </div>
                         <AudioPlayer
                             className='w-full p-4 shadow-lg bg-inherit !important'

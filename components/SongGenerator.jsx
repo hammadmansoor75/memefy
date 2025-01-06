@@ -14,6 +14,8 @@ import { SlPlaylist } from "react-icons/sl";
 import Image from 'next/image';
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@clerk/nextjs';
 
 
 
@@ -28,14 +30,13 @@ export const songSchema = z.object({
     .refine((val) => val.split(/\s+/).length <= 50, {
       message: 'Genre must not exceed 50 words',
     }),
-  wordCount: z
-    .number()
-    .min(50, 'Word count must be at least 50')
-    .max(1000, 'Word count must not exceed 1000'),
 });
 
 
 const SongGenerator = () => {
+
+  const {isLoaded, userId} = useAuth();
+
   const { register, handleSubmit,reset, formState: { errors } } = useForm({
     resolver: zodResolver(songSchema),
   });
@@ -50,6 +51,7 @@ const SongGenerator = () => {
   const [playlistLoading, setPlaylistLoading] = useState(false);
 
   const [deleteLoading,setDeleteLoading] = useState(false);
+  const router = useRouter();
 
   const toggleDialog = () => setIsDialogOpen(!isDialogOpen);
 
@@ -70,6 +72,7 @@ const SongGenerator = () => {
       const response = await axios.get('/api/get-songs');
       if (response.status === 200) {
         setSongs(response.data.songs);
+        setSelectedSong(response.data.songs[0])
         console.log(response.data);
       } else {
         console.log('Error Getting Songs');
@@ -86,9 +89,12 @@ const SongGenerator = () => {
 
   const onSubmit = async (data) => {
     try{
+      if(!isLoaded || !userId){
+        router.push('/sign-in')
+      }
       console.log(data);
       setSubmitLoading(true)
-      const response = await axios.post('/api/generate-song', {
+      const response = await axios.post('/api/generate-song-suno', {
         ...data
       })
       if(response.status === 200){
@@ -200,44 +206,35 @@ const SongGenerator = () => {
         }}
       >
         <div className='flex flex-col items-center justify-center' >
-            <h2 className='text-white text-center font-bold text-lg' >GENERATE. SHARE. MEMFY</h2>
-            <h1 className='text-white text-center text-2xl mt-4' >Song Generator</h1>
+            <h2 className='text-white text-center font-bold text-[16px]' >GENERATE. SHARE. MEMFY</h2>
+            <h1 className='text-white text-center text-[31px] mt-4' >Song Generator</h1>
             <form onSubmit={handleSubmit(onSubmit)} className='mt-10 px-5' >
-                {submitLoading ? <div className='flex flex-col items-center justify-center gap-4' >
-                  <ClipLoader size={30} color='white' />
-                  <p className='text-md text-white text-center' >We are currently generating your song! It will approximately take 5-7 minutes. Kindly dont leave this page.</p>
+                {submitLoading ? <div className='flex flex-col items-center justify-center border border-white rounded-lg gap-4 bg-yellow p-5' >
+                  <ClipLoader size={30} color='black' />
+                  <p className='text-md text-black text-center w-full lg:w-1/2' >We are currently generating your song! It will approximately take 3-4 minutes. Kindly dont leave this page.</p>
                 </div> : <div>
-                  <div className='flex flex-col lg:flex-row items-start justify-center gap-4' >
+                  <div className='grid sm:grid-cols-1 lg:grid-cols-2 justify-between gap-10 w-full ' >
                     <div className='flex flex-col w-full' >
-                        <label className='text-white text-md' >Song Description</label>
+                        <label className='text-white text-[12px]' >Song Description</label>
                             <textarea
                               {...register('description')}
-                              placeholder='Enter song description'
-                              className='mt-2 p-5 border border-white text-white rounded-xl bg-background w-[280px] h-[167px] resize-none'
+                              placeholder='Examples: Elon Musk Hating on Ethereum; Vitalik Buterin the MacDonalds Employee'
+                              className='mt-2 p-5 border border-white text-white rounded-xl bg-background resize-none text-[10px] min-w-[300px] min-h-[170px]'
                             />
                         {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
                     </div>
                     <div className='flex flex-col w-full' >
-                        <label className='text-white text-md' >Genre</label>
+                        <label className='text-white text-[12px]' >Genre</label>
                             <textarea
                               {...register('genre')}
-                              placeholder='Enter song genre'
-                              className='mt-2 p-5 border text-white border-white rounded-xl bg-background w-[280px] h-[167px] resize-none'
+                              placeholder='Examples: Hard Rap Song, Classic Rock Song, Acoustic Future Bass'
+                              className='mt-2 p-5 border text-white border-white rounded-xl bg-background   resize-none text-[10px] min-w-[300px] min-h-[170px]'
                             />
                         {errors.genre && <p className="text-red-500 text-sm">{errors.genre.message}</p>}
                     </div>
-                    <div className='flex flex-col w-full' >
-                        <label className='text-white text-md' >Word Count</label>
-                            <input
-                              {...register('wordCount', {valueAsNumber : true})}
-                              type='number'
-                              placeholder='Enter word count'
-                              className='mt-2 p-5 border border-white rounded-xl bg-background text-white w-[280px] h-[46px]'
-                            />
-                        {errors.wordCount && <p className="text-red-500 text-sm">{errors.wordCount.message}</p>}
-                    </div>
+                    
                 </div>
-                <div className='flex items-center justify-center'>
+                <div className='flex items-center justify-center mt-5'>
                     <button type='submit' className='yellow-button flex items-center justify-center gap-2 mt-5' >
                         <IoMusicalNotesOutline size={15}  />
                         <span>GENERATE</span>
@@ -259,15 +256,15 @@ const SongGenerator = () => {
                       <div>
                         <h1 className='text-white font-semibold text-sm' >{song.title}</h1>
                         <p className='text-white font-extralight text-xs' >
-                          {song.tags[0]} , {song.tags[1]} , {song.tags[2]}
+                          {song.tags}
                         </p>
                       </div>
                     </div>
                     <div className='flex items-center justify-center gap-2 md:gap-4' >
-                          <div className='text-yellow' onClick={handleDelete} >{song.id === selectedSong?.id ? deleteLoading ? <ClipLoader color='white' /> : <MdDelete size={15} /> : <MdDelete size={15} />}</div>
-                          <div className='text-yellow' onClick={downloadFileDirectly} ><IoMdDownload size={15} /></div>
-                          <div className='text-yellow' onClick={handleShare} ><FaShareAltSquare size={15} /></div>
-                          <div className='text-yellow' onClick={toggleDialog} ><SlPlaylist size={15} /></div>
+                          <div className='text-yellow relative group' onClick={handleDelete} >{song.id === selectedSong?.id ? deleteLoading ? <ClipLoader color='white' /> : <><MdDelete size={17} /><span className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-yellow text-black text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Delete</span></> : <><MdDelete size={17} /><span className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-yellow text-black text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Delete</span></> }</div>
+                          <div className='text-yellow relative group' onClick={downloadFileDirectly} ><IoMdDownload size={17} /><span className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-yellow text-black text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Download</span></div>
+                          <div className='text-yellow relative group' onClick={handleShare} ><FaShareAltSquare size={17} /><span className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-yellow text-black text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Share</span></div>
+                          <div className='text-yellow relative group' onClick={toggleDialog} ><SlPlaylist size={17} /><span className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-yellow text-black text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Add to Playlist</span></div>
                     </div>
                   </div>
                 </div>
@@ -278,8 +275,8 @@ const SongGenerator = () => {
               {selectedSong ? <div className='flex flex-col items-center justify-center gap-5' >
                 <Image src={selectedSong.songImage || "/assets/song-img-2.svg"} alt='song-image' height={200} width={200} className='rounded-lg' />
                 <h1 className='text-white font-semibold text-2xl text-center' >{selectedSong.title}</h1>
-                <p className='text-white font-extralight text-sm' >{selectedSong.tags[0]} , {selectedSong.tags[1]} , {selectedSong.tags[2]} </p>
-                <p className='text-white font-extralight text-sm' >{selectedSong.lyrics}</p>
+                <p className='text-white font-extralight text-sm text-opacity-65' >{selectedSong.tags} </p>
+                <p className='text-white font-extralight text-sm whitespace-pre-wrap text-opacity-65 text-center' >{selectedSong.lyrics}</p>
               </div> : <div className='' >
                 <p className='text-white text-xl font-medium text-center' >Select a song to see content!</p>
               </div>}
@@ -289,7 +286,7 @@ const SongGenerator = () => {
       </div>
 
       {isDialogOpen && (
-        <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-background border border-white p-5 rounded-lg">
             <h2 className="text-xl font-semibold mb-4 text-white">Select Playlist</h2>
             <div className="space-y-2">
@@ -302,6 +299,7 @@ const SongGenerator = () => {
                   {playlist.name}
                 </div>
               ))}
+              <div className='flex items-center justify-center'  ><button className='yellow-button' onClick={() => router.push('/playlist')} >Create Playlist</button></div>
             </div>
             <div className="mt-4 flex items-center justify-center gap-3">
               <button
@@ -324,12 +322,12 @@ const SongGenerator = () => {
       <div className='mt-10' ></div>
 
       {selectedSong && (
-        <div className='absolute border border-white bottom-[-300px] md:bottom-[-130px] right-0 w-full bg-white bg-opacity-10 px-2 rounded-lg' >
+        <div className='sticky border border-white bottom-[-300px] md:bottom-[-130px] right-0 w-full bg-white bg-opacity-10 pl-2 rounded-md' >
           <div className='flex flex-col md:flex-row items-center justify-start gap-5' >
             <Image src={selectedSong.songImage || '/assets/song-img-1.svg'} alt='song-img' height={50} width={50} className='rounded-md' />
             <div>
               <h1 className='text-white text-sm font-semibold' >{selectedSong.title}</h1>
-              <p className='text-white text-xs font-extralight' >{selectedSong.tags[0]} , {selectedSong.tags[0]}, {selectedSong.tags[0]}</p>
+              <p className='text-white text-xs font-extralight' >{selectedSong.tags}</p>
             </div>
             <AudioPlayer
             className='w-full p-4 shadow-lg bg-inherit !important'

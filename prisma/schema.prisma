@@ -39,7 +39,7 @@ model Song {
   id            String    @id @map("_id") @default(auto()) @db.ObjectId
   userId        String
   title         String
-  tags          String[]
+  tags          String
   lyrics        String
   songImage     String
   songUploadUrl String

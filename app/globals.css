@@ -54,7 +54,7 @@ body {
   padding-right: 1rem; /* Equivalent to px-4 (16px) */
   padding-top: 0.5rem; /* Equivalent to py-2 (8px) */
   padding-bottom: 0.5rem; /* Equivalent to py-2 (8px) */
-  width: 160px; /* Equivalent to w-[160px] */
+  width: 170px; /* Equivalent to w-[160px] */
   height: 46px; /* Equivalent to h-[46px] */
 }
 
@@ -76,7 +76,7 @@ body {
   padding-right: 1rem; /* Equivalent to px-4 (16px) */
   padding-top: 0.5rem; /* Equivalent to py-2 (8px) */
   padding-bottom: 0.5rem; /* Equivalent to py-2 (8px) */
-  width: 160px; /* Equivalent to w-[160px] */
+  width: 170px; /* Equivalent to w-[160px] */
   height: 46px; /* Equivalent to h-[46px] */
 }
 

@@ -9,7 +9,7 @@ const PagesLayout = ({children}) => {
     <SidebarProvider>
         <SideBar/>
         <main className='w-full h-full mt-2 ml-2' >
-            <SidebarTrigger />
+            <div className='block md:hidden' ><SidebarTrigger /></div>
             {children}
         </main>
     </SidebarProvider>

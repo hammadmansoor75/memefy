@@ -15,8 +15,8 @@ const Community = () => {
           }}
         >
           <div className='flex w-full h-full flex-col items-center justify-center' >
-            <h1 className='mt-10 text-white text-center text-2xl' >Community</h1>
-            <p className='mt-10 uppercase text-center px-4 md:px-10 text-white text-md' >Publish your generated songs to the community with one simple click. The communitycan then like, share & upvoteyour song.</p>
+            <h1 className='mt-10 text-white text-center text-[31px]' >Community</h1>
+            <p className='mt-10 uppercase text-center px-4 md:px-10 text-white text-[20px]' >Publish your generated songs to the community with one simple click. The communitycan then like, share & upvoteyour song.</p>
             <div className='mt-10 flex flex-col md:flex-row gap-5 items-center justify-center' >
               <Link href='/' ><button className='yellow-button' >GENERATE SONG</button></Link>
               <button className='transparent-button' >READ MORE</button>

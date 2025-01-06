@@ -87,9 +87,9 @@ const PlaylistCard = () => {
         }}
       >
 
-        <h1 className='text-white text-4xl font-semibold text-center m-5' >Playlists</h1>
+        <h1 className='text-white text-[31px] font-semibold text-center m-5' >Playlists</h1>
 
-        <div className='flex items-start justify-start flex-wrap gap-10 p-10' >
+        <div className='flex items-start justify-start flex-wrap gap-10 py-10 px-10 md:px-20' >
             <button onClick={toggleOpen} className='w-[130px] h-[140px] p-5 flex flex-col items-center justify-center gap-2 rounded-3xl bg-background text-white text-md border border-white' ><FaPlus size={20} /> <span>Create Playlist</span></button>
             {playlists && playlists.length > 0 && playlists.map((single) => (
                 <div onClick={() => handleRedirect(single.id)} key={single.id} className='flex cursor-pointer flex-col items-center justify-center' >

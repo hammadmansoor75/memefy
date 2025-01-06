@@ -15,8 +15,8 @@ const LeaderBoardPage = () => {
         }}
       >
         <div className='flex flex-col w-full h-full items-center justify-center' >
-          <h1 className='mt-10 text-white text-center text-2xl' >Leaderboard</h1>
-          <p className='mt-10 uppercase text-center px-4 md:px-10 text-white text-md' >WIN UP TO 1 SOL EVERYDAY SIMPLY BY POSTING YOURGENERATED SONG INTO THE COMMUNITY.THE BEST SONGS WIN.</p>
+          <h1 className='mt-10 text-white text-center text-[31px]' >Leaderboard</h1>
+          <p className='mt-10 uppercase text-center px-4 md:px-10 text-white text-[20px]' >WIN UP TO 1 SOL EVERYDAY SIMPLY BY POSTING YOURGENERATED SONG INTO THE COMMUNITY.THE BEST SONGS WIN.</p>
           <div className='mt-10 flex flex-col md:flex-row gap-5 items-center justify-center' >
             <Link href='/' ><button className='yellow-button' >GENERATE SONG</button></Link>
             <button className='transparent-button' >READ MORE</button>

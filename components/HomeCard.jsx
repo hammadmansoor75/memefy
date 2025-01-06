@@ -13,11 +13,11 @@ const HomeCard = () => {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className='flex items-center justify-start gap-2 px-5' >
-                <Image className='border-2 cursor-pointer border-yellow rounded-full p-1' src={'/assets/icon1.svg'} alt='icon' height={30} width={30} />
-                <Image className='border-2 cursor-pointer border-yellow rounded-full p-1' src={'/assets/icon2.svg'} alt='icon' height={30} width={30} />
-                <Image className='border-2 cursor-pointer border-yellow rounded-full p-1' src={'/assets/icon3.svg'} alt='icon' height={30} width={30} />
-                <Image className='border-2 cursor-pointer border-yellow rounded-full p-1' src={'/assets/icon4.svg'} alt='icon' height={30} width={30} />
+        <div className='flex items-center justify-start gap-3 px-5' >
+                <Image className='border-2 cursor-pointer border-yellow rounded-full p-1' src={'/assets/icon1.svg'} alt='icon' height={32} width={32} />
+                <Image className='border-2 cursor-pointer border-yellow rounded-full p-1' src={'/assets/icon2.svg'} alt='icon' height={32} width={32} />
+                <Image className='border-2 cursor-pointer border-yellow rounded-full p-1' src={'/assets/icon3.svg'} alt='icon' height={32} width={32} />
+                <Image className='border-2 cursor-pointer border-yellow rounded-full p-1' src={'/assets/icon4.svg'} alt='icon' height={32} width={32} />
         </div>
         <div className="flex items-center justify-between h-full px-4 sm:px-6 md:px-8 lg:px-10">
             
@@ -25,9 +25,9 @@ const HomeCard = () => {
           <div className="w-full md:w-1/2">
             
             <div className='flex flex-col items-center justify-center mt-5' >
-                <h3 className='text-white text-center text-md' >MEMFY</h3>
-                <h1 className='text-white text-center text-3xl mt-2' >Crypto’s First <strong>AI-Powered</strong> Song Generator</h1>
-                <div className='mt-5 flex flex-col lg:flex-row items-center justify-center gap-5' >
+                <h3 className='text-white text-center text-[16px]' >MEMEFY</h3>
+                <h1 className='text-white text-center text-[31px] mt-2' >Crypto’s First <strong>AI-Powered</strong> Song Generator</h1>
+                <div className='mt-7 flex flex-col lg:flex-row items-center justify-center gap-5' >
                     <button className='yellow-button' >
                         GENERATE SONG
                     </button>

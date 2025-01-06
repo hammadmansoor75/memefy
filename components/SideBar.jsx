@@ -89,7 +89,7 @@ const SideBar = () => {
         </SidebarContent>
         <SidebarFooter>
             <div className='flex flex-col items-center justify-center gap-4' >
-                <SignOutButton><button className='transparent-button' >SIGN OUT</button></SignOutButton>
+                <SignOutButton redirectUrl='/sign-in' ><button className='transparent-button' >SIGN OUT</button></SignOutButton>
                 <button className='yellow-button' >BUY $MEMFY</button>
                 <div className='flex items-center justify-start gap-4 mt-1' >
                     <Image className='border-2 cursor-pointer border-yellow rounded-full p-1' src={'/assets/icon1.svg'} alt='icon' height={30} width={30} />

@@ -206,7 +206,7 @@ const SongGenerator = () => {
         }}
       >
         <div className='flex flex-col items-center justify-center' >
-            <h2 className='text-white text-center font-bold text-[16px]' >GENERATE. SHARE. MEMFY</h2>
+            <h2 className='text-white text-center font-bold text-[16px] mt-5' >GENERATE. SHARE. MEMFY</h2>
             <h1 className='text-white text-center text-[31px] mt-4' >Song Generator</h1>
             <form onSubmit={handleSubmit(onSubmit)} className='mt-10 px-5' >
                 {submitLoading ? <div className='flex flex-col items-center justify-center border border-white rounded-lg gap-4 bg-yellow p-5' >
@@ -214,21 +214,21 @@ const SongGenerator = () => {
                   <p className='text-md text-black text-center w-full lg:w-1/2' >We are currently generating your song! It will approximately take 3-4 minutes. Kindly dont leave this page.</p>
                 </div> : <div>
                   <div className='grid sm:grid-cols-1 lg:grid-cols-2 justify-between gap-10 w-full ' >
-                    <div className='flex flex-col w-full' >
+                    <div className='flex flex-col w-full col-span-1' >
                         <label className='text-white text-[12px]' >Song Description</label>
                             <textarea
                               {...register('description')}
                               placeholder='Examples: Elon Musk Hating on Ethereum; Vitalik Buterin the MacDonalds Employee'
-                              className='mt-2 p-5 border border-white text-white rounded-xl bg-background resize-none text-[10px] min-w-[300px] min-h-[170px]'
+                              className='mt-2 p-5 border border-white text-white rounded-xl bg-background resize-none text-[10px] md:w-[300px] lg:w-[400px] min-h-[200px]'
                             />
                         {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
                     </div>
-                    <div className='flex flex-col w-full' >
+                    <div className='flex flex-col w-full col-span-1' >
                         <label className='text-white text-[12px]' >Genre</label>
                             <textarea
                               {...register('genre')}
                               placeholder='Examples: Hard Rap Song, Classic Rock Song, Acoustic Future Bass'
-                              className='mt-2 p-5 border text-white border-white rounded-xl bg-background   resize-none text-[10px] min-w-[300px] min-h-[170px]'
+                              className='mt-2 p-5 border text-white border-white rounded-xl bg-background   resize-none text-[10px] md:w-[300px] lg:w-[400px] min-h-[200px]'
                             />
                         {errors.genre && <p className="text-red-500 text-sm">{errors.genre.message}</p>}
                     </div>

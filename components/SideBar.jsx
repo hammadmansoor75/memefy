@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import {SignOutButton} from '@clerk/nextjs'
+import {SignInButton, SignOutButton} from '@clerk/nextjs'
 
 import {
     Sidebar,
@@ -25,6 +25,8 @@ import { FaCirclePlay } from "react-icons/fa6";
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { SignedIn } from '@clerk/nextjs';
+import { SignedOut } from '@clerk/nextjs';
 
 
 
@@ -89,8 +91,13 @@ const SideBar = () => {
         </SidebarContent>
         <SidebarFooter>
             <div className='flex flex-col items-center justify-center gap-4' >
+                <SignedIn>
                 <SignOutButton redirectUrl='/sign-in' ><button className='transparent-button' >SIGN OUT</button></SignOutButton>
-                <button className='yellow-button' >BUY $MEMFY</button>
+                </SignedIn>
+                <SignedOut>
+                    <SignInButton><button className='transparent-button' >SIGN IN</button></SignInButton>
+                </SignedOut>
+                <button className='yellow-button' >BUY $MEMEFY</button>
                 <div className='flex items-center justify-start gap-4 mt-1' >
                     <Image className='border-2 cursor-pointer border-yellow rounded-full p-1' src={'/assets/icon1.svg'} alt='icon' height={30} width={30} />
                     <Image className='border-2 cursor-pointer border-yellow rounded-full p-1' src={'/assets/icon2.svg'} alt='icon' height={30} width={30} />

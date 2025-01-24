@@ -13,6 +13,8 @@ const s3 = new S3Client({
     },
 });
 
+const sunoApiKey = process.env.SUNO_API_KEY;
+
 function getRandomNumber() {
     return Math.floor(Math.random() * 20) + 1;
 }
@@ -36,7 +38,7 @@ export async function POST(req){
             method: 'POST',
             url: 'https://apibox.erweima.ai/api/v1/generate',
             headers: {
-              Authorization: 'Bearer e7660e475da4b4f68ecb28edf06131e4',
+              Authorization: `Bearer ${sunoApiKey}`,
               'Content-Type': 'application/json',
               Accept: 'application/json'
             },
@@ -70,7 +72,7 @@ export async function POST(req){
                 url: 'https://apibox.erweima.ai/api/v1/generate/record-info',
                 params: {taskId: songTaskId},
                 headers: {
-                  Authorization: 'Bearer e7660e475da4b4f68ecb28edf06131e4',
+                  Authorization: `Bearer ${sunoApiKey} `,
                   Accept: 'application/json'
                 }
             };
